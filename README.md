@@ -6,7 +6,7 @@ A type provider for [ArkType](https://arktype.io/).
 
 ```
 npm install arktype
-npm install fastify-type-provider-arktype
+npm install fastify-type-provider-arktypeio
 ```
 
 ## Usage

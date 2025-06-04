@@ -1,6 +1,6 @@
 {
-    "name": "fastify-type-provider-arktype",
-    "version": "1.0.0",
+    "name": "fastify-type-provider-arktypeio",
+    "version": "1.0.1",
     "description": "A type provider for ArkType over Fastify",
     "main": "index.js",
     "scripts": {
