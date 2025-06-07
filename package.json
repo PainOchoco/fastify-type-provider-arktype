@@ -1,8 +1,9 @@
 {
     "name": "fastify-type-provider-arktypeio",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A type provider for ArkType over Fastify",
-    "main": "index.js",
+    "main": "dist/index.mjs",
+    "types": "dist/index.d.mts",
     "scripts": {
         "test": "node ./dist/test",
         "build": "tsc"
@@ -14,7 +15,7 @@
     "author": "Matteo Planchet",
     "license": "MIT",
     "devDependencies": {
-        "@types/node": "^22.15.29",
+        "@types/node": "^22.15.30",
         "arktype": "^2.1.20",
         "fastify": "^5.3.3",
         "fastify-plugin": "^5.0.1",
