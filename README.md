@@ -13,7 +13,7 @@ npm install fastify-type-provider-arktypeio
 
 ```js
 import Fastify from "fastify";
-import { ArkTypeTypeProvider, ArkTypeValidatorCompiler } from "fastify-type-provider-arktype";
+import { ArkTypeTypeProvider, ArkTypeValidatorCompiler, ArkTypeSerializerCompiler } from "fastify-type-provider-arktype";
 import { type } from "arktype";
 
 const fastify = Fastify().withTypeProvider<ArkTypeTypeProvider>();
