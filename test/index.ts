@@ -1,11 +1,39 @@
 import Fastify from "fastify";
-import { ArkTypeTypeProvider, ArkTypeValidatorCompiler } from "../index.mjs";
+import {
+    ArkTypeSchemaTransformer,
+    ArkTypeSerializerCompiler,
+    ArkTypeTypeProvider,
+    ArkTypeValidatorCompiler,
+} from "../index.mjs";
 import { type } from "arktype";
 import { expectType } from "tsd";
 import assert from "assert";
+import FastifySwagger from "@fastify/swagger";
 
 const fastify = Fastify().withTypeProvider<ArkTypeTypeProvider>();
+
 fastify.setValidatorCompiler(ArkTypeValidatorCompiler);
+fastify.setSerializerCompiler(ArkTypeSerializerCompiler);
+
+// Set up @fastify/swagger
+fastify.register(FastifySwagger, {
+    openapi: {
+        info: {
+            title: "My Fastify App",
+            version: "1.0.0",
+        },
+        components: {
+            securitySchemes: {
+                apiKey: {
+                    type: "apiKey",
+                    name: "apiKey",
+                    in: "header",
+                },
+            },
+        },
+    },
+    transform: ArkTypeSchemaTransformer,
+});
 
 const paramsSchema = type({
     name: "string.alpha > 1",
@@ -13,25 +41,30 @@ const paramsSchema = type({
 });
 
 const responseSchema = type({
-    code: "number",
     message: "string",
 });
 
-fastify.get<{
-    Params: typeof paramsSchema.inferIn;
-    Reply: typeof responseSchema.inferOut;
-}>(
+fastify.get(
     "/:platform/:name",
     {
         schema: {
+            description: "post some data",
+            tags: ["user", "code"],
+            summary: "qwerty",
+            security: [{ apiKey: [] }],
             params: paramsSchema,
+            response: {
+                200: responseSchema,
+            },
         },
     },
-    async (request) => {
-        expectType<string>(request.params.name);
-        expectType<"android" | "ios">(request.params.platform);
+    async (req, res) => {
+        expectType<string>(req.params.name);
+        expectType<"android" | "ios">(req.params.platform);
 
-        return { code: 123, message: "All good" };
+        res.code(200).send({
+            message: "a",
+        });
     }
 );
 
@@ -42,7 +75,6 @@ const testRequests = async () => {
     });
 
     expectType<{
-        code: number;
         message: string;
     }>(response.json());
 

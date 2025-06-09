@@ -17,10 +17,11 @@ import { ArkTypeTypeProvider, ArkTypeValidatorCompiler } from "fastify-type-prov
 import { type } from "arktype";
 
 const fastify = Fastify().withTypeProvider<ArkTypeTypeProvider>();
-// Optional type compiler
+// Optional compilers
 fastify.setValidatorCompiler(ArkTypeValidatorCompiler);
+fastify.setSerializerCompiler(ArkTypeSerializerCompiler);
 ```
 
 ## Example
 
-You can find a full example in [the test](./test/index.ts)
+You can find a full example including OpenAPI schema generation in [the test](./test/index.ts)
